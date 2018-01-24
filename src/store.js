@@ -6,5 +6,5 @@ export default {
     save: function (items) {
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify(
             items))
-    }
+    },
 }
