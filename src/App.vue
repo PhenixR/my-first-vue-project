@@ -100,15 +100,15 @@ li:hover .destroy {
 
 .destroy {
   position: absolute;
-	top: 0;
+	top: -7px;
   display: none;
 	margin: auto 0;
-	font-size: 25px;
+	font-size: 30px;
 	color: #cc9a9a;
   background-color: #fff;
   border: none;
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
 }
 
 .destroy:hover {
