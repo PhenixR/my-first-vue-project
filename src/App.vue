@@ -3,8 +3,9 @@
     <h1>{{title}}</h1>
     <input class="inputbox" v-model="newItem" @keyup.enter="addNew" placeholder="What needs to be done?">
     <ul>
-      <li v-for="item in items" v-bind:class="{finished:item.isFinished}" v-on:click="toggleFinish(item)">
-        {{item.label}}
+      <li v-for="item in items" v-bind:class="{finished:item.isFinished}">
+        <span v-on:click="toggleFinish(item)">{{item.label}}</span><br>
+        <times></times>
         <button class="destroy" @click="removeTodo(item)"></button>
       </li>
     </ul>
@@ -18,7 +19,7 @@ export default {
     return {
       title:'This is a todo list',
       items: Store.fetch(),
-      newItem: ''
+      newItem: '',
     }    
   },
   watch: {
@@ -120,6 +121,14 @@ li:hover .destroy {
 }
 
 .destroy:focus {
+  outline: none;
+}
+
+.times {
+  border: none;
+}
+
+.times:focus {
   outline: none;
 }
 
