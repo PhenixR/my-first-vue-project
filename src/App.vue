@@ -4,10 +4,13 @@
     <input class="inputbox" v-model="newItem" @keyup.enter="addNew" placeholder="What needs to be done?">
     <ul>
       <li v-for="item in items" v-bind:class="{finished:item.isFinished}">
-        <span v-on:click="toggleFinish(item)">{{item.label}}</span><br>
-        <times></times>
+        <span v-on:click="toggleFinish(item)">{{item.label}}</span>
+        <transition name="times">
+        <times v-if="show"></times>
+        </transition>
         <button class="destroy" @click="removeTodo(item)"></button>
       </li>
+      <button @click="show = !show" class="hide"></button>
     </ul>
   </div>
 </template>
@@ -20,6 +23,7 @@ export default {
       title:'This is a todo list',
       items: Store.fetch(),
       newItem: '',
+      show:true,
     }    
   },
   watch: {
@@ -44,7 +48,12 @@ export default {
     removeTodo: function (item) {
       var index = this.items.indexOf(item);
       this.items.splice(index, 1);
-		},
+    },
+    hideTimes: function (toggle) {
+      show = !show;
+      toggle.isHide = !toggle.isHide;
+
+    }
   }
 }
 </script>
@@ -132,4 +141,30 @@ li:hover .destroy {
   outline: none;
 }
 
+.times-enter-active {
+  transition: all .3s ease;
+}
+.times-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.times-enter, .times-leave-to
+/* .times-leave-active for below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+.hide {
+  width: 100px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(218, 218, 218);
+}
+
+.hide:focus {
+  outline: none;
+}
+.hide:after {
+	content: 'toggle times display';
+}
 </style>
