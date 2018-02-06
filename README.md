@@ -1,7 +1,6 @@
-# my-first-vue-project
+# vue-todolist
 
-> this is my very first vue project
-
+> vue-todolist
 ## Build Setup
 
 ``` bash
