@@ -6,11 +6,18 @@
       <li v-for="item in items" v-bind:class="{finished:item.isFinished}">
         <span v-on:click="toggleFinish(item)">{{item.label}}</span>
         <transition name="times">
-        <times v-if="show"></times>
+        <times v-if="on"></times>
         </transition>
         <button class="destroy" @click="removeTodo(item)"></button>
       </li>
-      <button @click="show = !show" class="hide"></button>
+      <transition name="with-mode-fade" mode="out-in">
+        <button class="toggle" v-if="on" key="on" @click="on = false">
+          hide times
+        </button>
+        <button class="toggle" v-else key="off" @click="on = true">
+          show times
+        </button>
+    </transition>
     </ul>
   </div>
 </template>
@@ -23,7 +30,7 @@ export default {
       title:'This is a todo list',
       items: Store.fetch(),
       newItem: '',
-      show:true,
+      on:false,
     }    
   },
   watch: {
@@ -153,7 +160,7 @@ li:hover .destroy {
   opacity: 0;
 }
 
-.hide {
+.toggle {
   width: 100px;
   display: flex;
   margin-left: auto;
@@ -161,10 +168,14 @@ li:hover .destroy {
   background-color: rgb(218, 218, 218);
 }
 
-.hide:focus {
+.toggle:focus {
   outline: none;
 }
-.hide:after {
-	content: 'toggle times display';
+
+.with-mode-fade-enter-active, .with-mode-fade-leave-active {
+  transition: opacity .5s
+}
+.with-mode-fade-enter, .with-mode-fade-leave-active {
+  opacity: 0
 }
 </style>
