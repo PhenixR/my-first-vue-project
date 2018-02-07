@@ -6,17 +6,17 @@
       <li v-for="item in items" v-bind:class="{finished:item.isFinished}">
         <span v-on:click="toggleFinish(item)">{{item.label}}</span>
         <transition name="times">
-        <times v-if="on"></times>
+        <!--<times v-if="on"></times>-->
         </transition>
         <button class="destroy" @click="removeTodo(item)"></button>
       </li>
       <transition name="with-mode-fade" mode="out-in">
-        <button class="toggle" v-if="on" key="on" @click="on = false">
+        <!--<button class="toggle" v-if="on" key="on" @click="on = false">
           hide times
         </button>
         <button class="toggle" v-else key="off" @click="on = true">
           show times
-        </button>
+        </button>-->
     </transition>
     </ul>
   </div>
@@ -30,7 +30,7 @@ export default {
       title:'This is a todo list',
       items: Store.fetch(),
       newItem: '',
-      on:false,
+      on:true,
     }    
   },
   watch: {
