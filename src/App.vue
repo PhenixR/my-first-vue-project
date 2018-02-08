@@ -6,17 +6,17 @@
       <li v-for="item in items" v-bind:class="{finished:item.isFinished}">
         <span v-on:click="toggleFinish(item)">{{item.label}}</span>
         <transition name="times">
-        <!--<times v-if="on"></times>-->
+          <button v-if="on" @click="addTimes(item)" class="do-times">do {{ item.counter }} times</button>
         </transition>
         <button class="destroy" @click="removeTodo(item)"></button>
       </li>
       <transition name="with-mode-fade" mode="out-in">
-        <!--<button class="toggle" v-if="on" key="on" @click="on = false">
+        <button class="toggle" v-if="on" key="on" @click="on = false">
           hide times
         </button>
         <button class="toggle" v-else key="off" @click="on = true">
           show times
-        </button>-->
+        </button>
     </transition>
     </ul>
   </div>
@@ -48,7 +48,8 @@ export default {
     addNew: function () {
       this.items.push ({
         label:this.newItem,
-        isFinished:false
+        isFinished:false,
+        counter:0,
       })
       this.newItem = ''
     },
@@ -56,10 +57,8 @@ export default {
       var index = this.items.indexOf(item);
       this.items.splice(index, 1);
     },
-    hideTimes: function (toggle) {
-      show = !show;
-      toggle.isHide = !toggle.isHide;
-
+    addTimes:function (item) {
+      item.counter += 1
     }
   }
 }
@@ -140,11 +139,11 @@ li:hover .destroy {
   outline: none;
 }
 
-.times {
+.do-times {
   border: none;
 }
 
-.times:focus {
+.do-times:focus {
   outline: none;
 }
 
