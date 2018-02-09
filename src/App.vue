@@ -2,23 +2,30 @@
   <div id="app">
     <h1>{{title}}</h1>
     <input class="inputbox" v-model="newItem" @keyup.enter="addNew" placeholder="What needs to be done?">
-    <ul>
-      <li v-for="item in items" v-bind:class="{finished:item.isFinished}">
+    <br><br>
+    <input v-model="query" placeholder="search">
+    <transition-group name="staggered-fade" tag="ul" v-bind:css="false" v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave">
+      <li v-for="(item,index) in items" v-bind:class="{finished:item.isFinished}" v-bind:key="item.label" v-bind:data-index="index">
         <span v-on:click="toggleFinish(item)">{{item.label}}</span>
         <transition name="times">
-          <button v-if="on" @click="addTimes(item)" class="do-times">do {{ item.counter }} times</button>
+          <span v-if="on" class="do-times">
+            finish {{ item.counter }} times
+            <button @click="addTimes(item)" class="addTimes">+</button>
+            <button @click="reduceTimes(item)" class="reduceTimes">-</button>
+            <button @click="resetTimes(item)">reset</button>
+          </span>
         </transition>
         <button class="destroy" @click="removeTodo(item)"></button>
       </li>
-      <transition name="with-mode-fade" mode="out-in">
-        <button class="toggle" v-if="on" key="on" @click="on = false">
-          hide times
-        </button>
-        <button class="toggle" v-else key="off" @click="on = true">
-          show times
-        </button>
-    </transition>
-    </ul>
+    </transition-group>
+    <transition name="with-mode-fade" mode="out-in">
+      <button class="toggle" v-if="on" key="on" @click="on = false">
+        hide times
+      </button>
+      <button class="toggle" v-else key="off" @click="on = true">
+        show times
+      </button>
+    </transition>  
   </div>
 </template>
 
@@ -30,7 +37,8 @@ export default {
       title:'This is a todo list',
       items: Store.fetch(),
       newItem: '',
-      on:true,
+      on: true,
+      query: '',
     }    
   },
   watch: {
@@ -59,7 +67,13 @@ export default {
     },
     addTimes:function (item) {
       item.counter += 1
-    }
+    },
+    reduceTimes:function(item) {
+      item.counter -= 1
+    },
+    resetTimes:function(item) {
+      item.counter = 0
+    },
   }
 }
 </script>
@@ -140,10 +154,22 @@ li:hover .destroy {
 }
 
 .do-times {
-  border: none;
+  font-size: 0.5em;
 }
 
-.do-times:focus {
+.reduceTimes {
+  background-color: rgb(218, 218, 218);
+}
+
+.reduceTimes:focus {
+  outline: none;
+}
+
+.addTimes {
+  background-color: rgb(218, 218, 218);
+}
+
+.addTimes:focus {
   outline: none;
 }
 
