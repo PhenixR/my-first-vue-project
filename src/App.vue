@@ -7,6 +7,7 @@
     <transition-group name="staggered-fade" tag="ul" v-bind:css="false" v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave">
       <li v-for="(item,index) in items" v-bind:class="{finished:item.isFinished}" v-bind:key="item.label" v-bind:data-index="index">
         <span v-on:click="toggleFinish(item)">{{item.label}}</span>
+        
         <transition name="times">
           <span v-if="on" class="do-times">
             finish {{ item.counter }} times
