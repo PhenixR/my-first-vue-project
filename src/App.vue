@@ -4,29 +4,28 @@
     <input class="inputbox" v-model="newItem" @keyup.enter="addNew" placeholder="What needs to be done?">
     <br><br>
     <input v-model="query" placeholder="search">
-    <transition-group name="staggered-fade" tag="ul" v-bind:css="false" v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave">
-      <li v-for="(item,index) in items" v-bind:class="{finished:item.isFinished}" v-bind:key="item.label" v-bind:data-index="index">
+    <transition-group name="staggered-fade" tag="ul" v-bind:css="false">
+      <li v-for="(item,index) in computedList" v-bind:class="{finished:item.isFinished}" v-bind:key="item.label" v-bind:data-index="index">
         <span v-on:click="toggleFinish(item)">{{item.label}}</span>
-        
-        <transition name="times">
+        <!--<transition name="times">
           <span v-if="on" class="do-times">
             finish {{ item.counter }} times
             <button @click="addTimes(item)" class="addTimes">+</button>
             <button @click="reduceTimes(item)" class="reduceTimes">-</button>
             <button @click="resetTimes(item)">reset</button>
           </span>
-        </transition>
+        </transition>-->
         <button class="destroy" @click="removeTodo(item)"></button>
       </li>
     </transition-group>
-    <transition name="with-mode-fade" mode="out-in">
+    <!--<transition name="with-mode-fade" mode="out-in">
       <button class="toggle" v-if="on" key="on" @click="on = false">
         hide times
       </button>
       <button class="toggle" v-else key="off" @click="on = true">
         show times
       </button>
-    </transition>  
+    </transition> -->
   </div>
 </template>
 
@@ -36,16 +35,24 @@ export default {
   data: function () {
     return {
       title:'This is a todo list',
-      items: Store.fetch(),
+      list: Store.fetch(),
       newItem: '',
       on: true,
       query: '',
     }    
   },
+  computed: {
+    computedList: function () {
+      var vm = this
+      return this.list.filter(function (item) {
+        return item.label.toLowerCase().indexOf(vm.query.toLowerCase()) !== -1
+      })
+    }
+  },
   watch: {
-    items: {
-      handler: function (items) {
-        Store.save(items)
+    list: {
+      handler: function (list) {
+        Store.save(list)
       },
       deep:true
     }
@@ -55,7 +62,7 @@ export default {
       item.isFinished = !item.isFinished
     },
     addNew: function () {
-      this.items.push ({
+      this.list.push ({
         label:this.newItem,
         isFinished:false,
         counter:0,
@@ -63,8 +70,8 @@ export default {
       this.newItem = ''
     },
     removeTodo: function (item) {
-      var index = this.items.indexOf(item);
-      this.items.splice(index, 1);
+      var index = this.list.indexOf(item);
+      this.list.splice(index, 1);
     },
     addTimes:function (item) {
       item.counter += 1
