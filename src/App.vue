@@ -73,7 +73,7 @@ export default {
       var index = this.list.indexOf(item);
       this.list.splice(index, 1);
     },
-    addTimes:function (item) {
+    /*addTimes:function (item) {
       item.counter += 1
     },
     reduceTimes:function(item) {
@@ -81,7 +81,7 @@ export default {
     },
     resetTimes:function(item) {
       item.counter = 0
-    },
+    },*/
   }
 }
 </script>
@@ -161,7 +161,7 @@ li:hover .destroy {
   outline: none;
 }
 
-.do-times {
+/*.do-times {
   font-size: 0.5em;
 }
 
@@ -187,11 +187,10 @@ li:hover .destroy {
 .times-leave-active {
   transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
-.times-enter, .times-leave-to
-/* .times-leave-active for below version 2.1.8 */ {
+.times-enter, .times-leave-to {
   transform: translateX(10px);
   opacity: 0;
-}
+}*/
 
 .toggle {
   width: 100px;
@@ -205,10 +204,4 @@ li:hover .destroy {
   outline: none;
 }
 
-.with-mode-fade-enter-active, .with-mode-fade-leave-active {
-  transition: opacity .5s
-}
-.with-mode-fade-enter, .with-mode-fade-leave-active {
-  opacity: 0
-}
 </style>
