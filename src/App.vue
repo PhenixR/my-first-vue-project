@@ -3,9 +3,8 @@
     <h1>{{title}}</h1>
     <input class="inputbox" v-model="newItem" @keyup.enter="addNew" placeholder="What needs to be done?">
     <br><br>
-    <input v-model="query" placeholder="search">
     <transition-group name="staggered-fade" tag="ul" v-bind:css="false" v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave">
-      <li v-for="(item,index) in items" v-bind:class="{finished:item.isFinished}" v-bind:key="item.label" v-bind:data-index="index">
+      <li v-for="(item) in items" v-bind:class="{finished:item.isFinished}" v-bind:key="item.label">
         <span v-on:click="toggleFinish(item)">{{item.label}}</span>
         
         <transition name="times">
@@ -175,13 +174,12 @@ li:hover .destroy {
 }
 
 .times-enter-active {
-  transition: all .3s ease;
-}
-.times-leave-active {
   transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
-.times-enter, .times-leave-to
-/* .times-leave-active for below version 2.1.8 */ {
+.times-leave-active {
+  transition: all .3s ease;
+}
+.times-enter, .times-leave-to {
   transform: translateX(10px);
   opacity: 0;
 }
@@ -198,10 +196,4 @@ li:hover .destroy {
   outline: none;
 }
 
-.with-mode-fade-enter-active, .with-mode-fade-leave-active {
-  transition: opacity .5s
-}
-.with-mode-fade-enter, .with-mode-fade-leave-active {
-  opacity: 0
-}
 </style>
